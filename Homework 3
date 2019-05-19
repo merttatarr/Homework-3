@@ -1,0 +1,21 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime
+import matplotlib.pyplot as plt
+from numpy import convolve
+
+# Moving average method
+def movingaverage (values, window):
+    weights = np.repeat(1.0, window)/window
+    sma = np.convolve(values, weights, 'valid')
+    return sma
+
+# There is no first and blank lines
+with open('HW03_USD_TRY_Trading.txt','r') as infile:
+    RawData = [x.strip().split('\t') for x in infile if len(x.strip()) != 0 ]
+
+RawData = np.delete(RawData, (0), axis=0)
+
+# For all close values (5 close column, all columns start from 0)
+CloseValues = [row[5] for row in RawData]
+xAxisValue = [i for i in range(len(CloseValues))]
